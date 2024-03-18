@@ -1,0 +1,234 @@
+//STYLE:
+
+body {
+    background: #FEFEFE ; /* color o imagen de fondo deseada */;
+}
+
+body, header, .bienvenida{
+    text-align: center;
+    font-family: "Comic Neue";
+    font-weight: 400;
+    font-style:unset;
+    padding: 0.8em 0;
+    color: black;
+}
+
+.mensaje textarea {
+    border-radius: 5px; /* Bordess redondeados para el textarea dentro de la clase mensaje */
+    /* Agrega otros estilos para la caja de texto aquí */
+}
+
+.cajaResultado input[type="text"] {
+    border-radius: 5px; /* Bordess redondeados para el input dentro de la clase cajaResultado */
+    /* Agrega otros estilos para la caja de texto aquí */
+}
+
+
+.Botonencriptar{
+    text-align: left;
+    padding: 15em 0;
+}
+.encriptar{
+    text-align: center; 
+    width: 20%;
+    padding: 10px 0;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    background-color:#5ab8e9;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    
+}
+
+.encriptar:hover{
+    background: #00aae4;
+    transform: scale(1.10);
+}
+
+.cajaResultado{
+    padding: 1.5em;
+   
+}
+ 
+/**/
+
+.BotonesP{
+    text-align: center;
+    padding: 0.4em 0;
+}
+.descifrar{
+    text-align: center; 
+    width: 20%;
+    padding: 10px 0;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    background-color:#F9694D;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    
+}
+
+.descifrar:hover{
+    background: #F9694D;
+    transform: scale(1.10);
+}
+.BotonB{
+    text-align: center; 
+    padding: 0.4em 0;
+    
+}
+.limpiar{
+    text-align: center; 
+    width: 20%;
+    padding: 10px 0;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    background-color:#D5F94D;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    border-radius: 5px; /* Define el radio de los bordes */
+      
+}
+
+.limpiar:hover{
+    background: #D5F94D;
+    transform: scale(1.10);
+}
+.mensaje{
+    text-align: center;
+}
+
+//JS
+// Función para encriptar un mensaje utilizando el cifrado César
+function cifrarMensaje(mensaje, desplazamiento) {
+    let resultado = '';
+
+    for (let i = 0; i < mensaje.length; i++) {
+        let caracter = mensaje[i];
+        let codigo = mensaje.charCodeAt(i);
+
+        // Solo se aplica el cifrado a las letras del alfabeto
+        if (codigo >= 65 && codigo <= 90) { // Letras mayúsculas
+            caracter = String.fromCharCode(((codigo - 65 + desplazamiento) % 26) + 65);
+        } else if (codigo >= 97 && codigo <= 122) { // Letras minúsculas
+            caracter = String.fromCharCode(((codigo - 97 + desplazamiento) % 26) + 97);
+        }
+        resultado += caracter;
+    }
+
+    return resultado;
+}
+
+// Función para descifrar un mensaje utilizando el cifrado César
+function descifrarMensaje(mensaje, desplazamiento) {
+    return cifrarMensaje(mensaje, -desplazamiento); // Para descifrar, se utiliza un desplazamiento negativo
+}
+
+// Función para manejar el evento de clic en el botón "Encriptar"
+document.querySelector('.encriptar').addEventListener('click', function(event) {
+    event.preventDefault(); // Evita el comportamiento predeterminado del botón de envío del formulario
+
+    // Obtiene el mensaje del textarea
+    let mensaje = document.getElementById('Mensaje').value;
+    
+    // Define el desplazamiento (por ejemplo, 3)
+    let desplazamiento = 3;
+
+    // Encripta el mensaje
+    let mensajeEncriptado = cifrarMensaje(mensaje, desplazamiento);
+
+    // Muestra el mensaje encriptado en la caja de texto
+    document.getElementById('mensajeEncriptado').value = mensajeEncriptado;
+});
+
+// Función para manejar el evento de clic en el botón "Descifrar"
+document.querySelector('.descifrar').addEventListener('click', function(event) {
+    event.preventDefault(); // Evita el comportamiento predeterminado del botón de envío del formulario
+
+    // Obtiene el mensaje encriptado del textarea
+    let mensajeEncriptado = document.getElementById('Mensaje').value;
+
+    // Define el desplazamiento (por ejemplo, 3)
+    let desplazamiento = 3;
+
+    // Descifra el mensaje
+    let mensajeDescifrado = descifrarMensaje(mensajeEncriptado, desplazamiento);
+
+    // Muestra el mensaje descifrado en la caja de texto
+    document.getElementById('mensajeEncriptado').value = mensajeDescifrado;
+});
+
+// Función para limpiar el contenido de las cajas de texto de entrada y resultado
+function limpiarCajas() {
+    document.getElementById('Mensaje').value = ''; // Borra el contenido de la caja de entrada de texto
+    document.getElementById('mensajeEncriptado').value = ''; // Borra el contenido de la caja de resultado
+}
+
+// Evento de clic en el botón "Limpiar"
+document.querySelector('.limpiar').addEventListener('click', function(event) {
+    event.preventDefault(); // Evita el comportamiento predeterminado del botón de envío del formulario
+
+    // Llama a la función para limpiar las cajas de texto
+    limpiarCajas();
+}); 
+
+//HTML:
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Challenge Encriptador</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="app.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+       <div class="bienvenida">
+        <h1>BIENVENIDO AL ENCRIPTADOR DE TEXTO</h1>
+       </div>
+    </header>
+
+    <main>
+        <section class="unicaPagina">
+           
+        </section>
+
+        <form class="mensaje">
+            <textarea cols="50" rows="10" id="Mensaje" placeholder="Escribe tu mensaje aquí..." class="centrado"></textarea>
+             
+        </form>
+
+        <form class="cajaResultado"> 
+            <input type="text" id="mensajeEncriptado" readonly placeholder="Tu mensaje cifrado es..." class="centrado"> <!-- Caja de texto para mostrar el mensaje encriptado -->
+        </form>
+        
+        <form>
+            <div class="BotonesP">
+                <input type="submit" name="encriptar" value="Encriptar" class="encriptar">
+                <input type="submit" name="descifrar" value="Descifrar" class="descifrar">
+            </div>
+
+            <div class="BotonB">
+                <input type="submit" name="limpiarCaja" value="Limpiar" class="limpiar">
+            </div>
+        </form>
+    </main>
+    <script src="app.js" defer></script>
+
+    <div class="bannerInformativo">
+
+
+    </div>
+</body>
+</html>
